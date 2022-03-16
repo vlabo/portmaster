@@ -11,6 +11,7 @@ require (
 	github.com/google/gopacket v1.1.19
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/hashicorp/go-version v1.4.0
+	github.com/kardianos/osext v0.0.0-20190222173326-2bc1f35cddc0 // indirect
 	github.com/mdlayher/socket v0.2.2 // indirect
 	github.com/miekg/dns v1.1.46
 	github.com/oschwald/maxminddb-golang v1.8.0
@@ -25,4 +26,9 @@ require (
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	golang.org/x/sys v0.0.0-20220227234510-4e6760a101f9
+	zombiezen.com/go/sqlite v0.9.2
 )
+
+replace github.com/safing/spn => ../spn
+
+replace github.com/safing/portbase => ../portbase
