@@ -8,7 +8,6 @@ import (
 
 	"github.com/tevino/abool"
 
-	"github.com/safing/portbase/log"
 	"github.com/safing/portmaster/network"
 	"github.com/safing/portmaster/network/packet"
 )
@@ -17,8 +16,8 @@ import (
 type Packet struct {
 	packet.Base
 
-	verdictRequest *VerdictRequest
-	verdictSet     *abool.AtomicBool
+	verdictRequestId uint64
+	verdictSet       *abool.AtomicBool
 
 	payloadLoaded bool
 	lock          sync.Mutex
@@ -27,49 +26,18 @@ type Packet struct {
 // FastTrackedByIntegration returns whether the packet has been fast-track
 // accepted by the OS integration.
 func (pkt *Packet) FastTrackedByIntegration() bool {
-	return pkt.verdictRequest.flags&VerdictRequestFlagFastTrackPermitted > 0
+	return false
 }
 
 // InfoOnly returns whether the packet is informational only and does not
 // represent an actual packet.
 func (pkt *Packet) InfoOnly() bool {
-	return pkt.verdictRequest.flags&VerdictRequestFlagSocketAuth > 0
+	return false
 }
 
 // ExpectInfo returns whether the next packet is expected to be informational only.
 func (pkt *Packet) ExpectInfo() bool {
-	return pkt.verdictRequest.flags&VerdictRequestFlagExpectSocketAuth > 0
-}
-
-// GetPayload returns the full raw packet.
-func (pkt *Packet) LoadPacketData() error {
-	pkt.lock.Lock()
-	defer pkt.lock.Unlock()
-
-	if pkt.verdictRequest.id == 0 {
-		return ErrNoPacketID
-	}
-
-	if !pkt.payloadLoaded {
-		pkt.payloadLoaded = true
-
-		payload, err := GetPayload(pkt.verdictRequest.id, pkt.verdictRequest.packetSize)
-		if err != nil {
-			log.Tracer(pkt.Ctx()).Warningf("windowskext: failed to load payload: %s", err)
-			return packet.ErrFailedToLoadPayload
-		}
-
-		err = packet.Parse(payload, &pkt.Base)
-		if err != nil {
-			log.Tracer(pkt.Ctx()).Warningf("windowskext: failed to parse payload: %s", err)
-			return packet.ErrFailedToLoadPayload
-		}
-	}
-
-	if len(pkt.Raw()) == 0 {
-		return packet.ErrFailedToLoadPayload
-	}
-	return nil
+	return false
 }
 
 // Accept accepts the packet.

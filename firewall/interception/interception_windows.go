@@ -3,7 +3,7 @@ package interception
 import (
 	"context"
 	"fmt"
-	"time"
+	// "time"
 
 	"github.com/safing/portmaster/firewall/interception/windowskext"
 	"github.com/safing/portmaster/network"
@@ -28,6 +28,8 @@ func startInterception(packets chan packet.Packet) error {
 		return fmt.Errorf("interception: could not start windows kext: %s", err)
 	}
 
+	fmt.Println("Kext started")
+
 	// Start packet handler.
 	module.StartServiceWorker("kext packet handler", 0, func(ctx context.Context) error {
 		windowskext.Handler(ctx, packets)
@@ -35,9 +37,9 @@ func startInterception(packets chan packet.Packet) error {
 	})
 
 	// Start bandwidth stats monitor.
-	module.StartServiceWorker("kext bandwidth stats monitor", 0, func(ctx context.Context) error {
-		return windowskext.BandwidthStatsWorker(ctx, 1*time.Second, BandwidthUpdates)
-	})
+	// module.StartServiceWorker("kext bandwidth stats monitor", 0, func(ctx context.Context) error {
+	// 	return windowskext.BandwidthStatsWorker(ctx, 1*time.Second, BandwidthUpdates)
+	// })
 
 	return nil
 }
@@ -49,7 +51,8 @@ func stopInterception() error {
 
 // ResetVerdictOfAllConnections resets all connections so they are forced to go thought the firewall again.
 func ResetVerdictOfAllConnections() error {
-	return windowskext.ClearCache()
+	// return windowskext.ClearCache()
+	return nil
 }
 
 // UpdateVerdictOfConnection updates the verdict of the given connection in the kernel extension.
