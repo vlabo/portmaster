@@ -85,7 +85,7 @@
     "@types/jasmine": "^4.3.1",
     "@types/jasminewd2": "~2.0.10",
     "@types/node": "^20.1.5",
-    "@types/psl": "^1.1.0",
+    "@types/psl": "^1.11.0",
     "@types/topojson-client": "^3.1.1",
     "@types/topojson-simplify": "^3.0.1",
     "@types/whatwg-encoding": "^2.0.3",
