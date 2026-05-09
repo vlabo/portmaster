@@ -38,7 +38,7 @@ impl ClassifyDefer {
                 ClassifyDefer::Reauthorization(_callout_id, packet_list) => {
                     // There is no way to reset single filter. If another request for filter reset is trigger at the same time it will fail.
                     //
-                    // Resetting all filters forces WFP to re-evaluate (reauthorize) all existing connections 
+                    // Resetting all filters forces WFP to re-evaluate (reauthorize) all existing connections
                     // using the updated verdict cache.
                     // If STATUS_FWP_TXN_IN_PROGRESS is returned, another reset_all_filters() call is
                     // already running concurrently, which will trigger the same WFP reauthorization.
@@ -122,6 +122,14 @@ impl<'a> CalloutData<'a> {
         }
     }
 
+    pub fn get_ip_header_size(&self) -> u32 {
+        unsafe { (*self.metadata).get_ip_header_size() }
+    }
+
+    pub fn get_transport_header_size(&self) -> u32 {
+        unsafe { (*self.metadata).get_transport_header_size() }
+    }
+
     pub fn get_remote_scope_id(&self) -> Option<SCOPE_ID> {
         unsafe {
             return (*self.metadata).get_remote_scope_id();
@@ -186,14 +194,14 @@ impl<'a> CalloutData<'a> {
         }
     }
 
-    // Block action and clear the write flag. 
+    // Block action and clear the write flag.
     // This will block the packet and prevent next filter in the chain to change the action.
     pub fn action_block_hard(&mut self) {
         unsafe {
             (*self.classify_out).action_block();
             (*self.classify_out).clear_absorb_flag();
             // Next filter in the chain will not change the action.
-            (*self.classify_out).clear_write_flag(); 
+            (*self.classify_out).clear_write_flag();
         }
     }
 

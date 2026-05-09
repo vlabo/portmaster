@@ -188,7 +188,9 @@ fn ale_layer_auth(mut data: CalloutData, ale_data: AleLayerData) {
                 // Continue to packet layer.
                 data.action_permit();
 
-                if device.is_owner_pid(ale_data.process_id as u32) && matches!(ale_data.direction, Direction::Outbound) {
+                if device.is_owner_pid(ale_data.process_id as u32)
+                    && matches!(ale_data.direction, Direction::Outbound)
+                {
                     // If this is Portmaster's own outbound connection, clear the write flag
                     // to prevent subsequent filters in the chain from overriding the permit action.
                     // This prevents other firewall applications from blocking Portmaster's own connections.
@@ -302,11 +304,9 @@ fn create_packet_list(
     let mut nbl = NetBufferList::new(callout_data.get_layer_data() as _);
     let mut inbound = false;
     if let Direction::Inbound = ale_data.direction {
-        if ale_data.is_ipv6 {
-            nbl.retreat(IPV6_HEADER_LEN as u32, true);
-        } else {
-            nbl.retreat(IPV4_HEADER_LEN as u32, true);
-        }
+        let retreat_size =
+            callout_data.get_ip_header_size() + callout_data.get_transport_header_size();
+        nbl.retreat(retreat_size, true);
         inbound = true;
     }
 
