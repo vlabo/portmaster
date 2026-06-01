@@ -50,7 +50,7 @@ require (
 	github.com/seehuhn/fortuna v1.0.2
 	github.com/shirou/gopsutil v3.21.11+incompatible
 	github.com/simukti/sqldb-logger v0.0.0-20230108155151-646c1a075551
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	github.com/spkg/zipfs v0.7.1
 	github.com/stephenafamo/bob v0.41.1
 	github.com/stretchr/testify v1.11.1
