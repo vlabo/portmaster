@@ -43,7 +43,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
-    "@tauri-apps/api": ">=2.1.1",
+    "@tauri-apps/api": ">=2.9.1",
     "@tauri-apps/plugin-cli": ">=2.0.0",
     "@tauri-apps/plugin-clipboard-manager": ">=2.0.0",
     "@tauri-apps/plugin-dialog": ">=2.0.0",
